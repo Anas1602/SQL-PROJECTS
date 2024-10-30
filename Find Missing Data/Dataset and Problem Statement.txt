@@ -1,0 +1,47 @@
+PROBLEM STATEMENT
+_________________
+
+In the given input table, some of the invoice are missing, write a SQL query to identify the missing serial no. 
+As an assumption, consider the serial no with the lowest value to be the first generated invoice and the highest serial no value to be the last generated invoice
+
+	INPUT
+	
+SERIAL_NO	INVOICE_DATE
+330115		01/03/2024
+330120		01/03/2024
+330121		01/03/2024
+330122		02/03/2024
+330125		02/03/2024
+
+	OUTPUT
+
+MISSING_SERIAL_NO
+
+330116
+330117
+330118
+330119
+330123
+330124
+_________________________________________________________________________________________________
+
+DATASET
+_______
+				
+
+DROP TABLE IF EXISTS invoice;
+
+CREATE TABLE invoice (
+    serial_no INT,
+    invoice_date DATE
+);
+
+INSERT INTO invoice (serial_no, invoice_date) VALUES (330115, '2024-03-01');
+INSERT INTO invoice (serial_no, invoice_date) VALUES (330120, '2024-03-01');
+INSERT INTO invoice (serial_no, invoice_date) VALUES (330121, '2024-03-01');
+INSERT INTO invoice (serial_no, invoice_date) VALUES (330122, '2024-03-02');
+INSERT INTO invoice (serial_no, invoice_date) VALUES (330125, '2024-03-02');
+
+SELECT * FROM invoice;
+
+
