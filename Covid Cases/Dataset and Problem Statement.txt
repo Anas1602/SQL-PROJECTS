@@ -1,0 +1,76 @@
+-- PROBLEM STATEMENT
+____________________
+
+-- Given table contains reported covid cases in 2020. 
+-- Calculate the percentage increase in covid cases each month versus cumulative cases as of the prior month.
+-- Return the month number, and the percentage increase rounded to one decimal. Order the result by the month.
+
+OUTPUT
+	
+MONTH	PERCENTAGE_INCREASE
+1		-
+2		51.9
+3		148.9
+4		61.5
+5		57.1
+6		10.2
+7		5.7
+8		3.9
+9		7.9
+10		1.7
+11		6.4
+12		7.4
+
+______________________________________________________________________________________________________________
+-- DATASET
+__________
+drop table if exists covid_cases;
+create table covid_cases
+(
+	cases_reported	int,
+	dates			date	
+);
+INSERT INTO covid_cases VALUES (20124, CONVERT(DATE, '10/01/2020', 103));
+INSERT INTO covid_cases VALUES (40133, CONVERT(DATE, '15/01/2020', 103));
+INSERT INTO covid_cases VALUES (65005, CONVERT(DATE, '20/01/2020', 103));
+INSERT INTO covid_cases VALUES (30005, CONVERT(DATE, '08/02/2020', 103));
+INSERT INTO covid_cases VALUES (35015, CONVERT(DATE, '19/02/2020', 103));
+INSERT INTO covid_cases VALUES (15015, CONVERT(DATE, '03/03/2020', 103));
+INSERT INTO covid_cases VALUES (35035, CONVERT(DATE, '10/03/2020', 103));
+INSERT INTO covid_cases VALUES (49099, CONVERT(DATE, '14/03/2020', 103));
+INSERT INTO covid_cases VALUES (84045, CONVERT(DATE, '20/03/2020', 103));
+INSERT INTO covid_cases VALUES (100106, CONVERT(DATE, '31/03/2020', 103));
+INSERT INTO covid_cases VALUES (17015, CONVERT(DATE, '04/04/2020', 103));
+INSERT INTO covid_cases VALUES (36035, CONVERT(DATE, '11/04/2020', 103));
+INSERT INTO covid_cases VALUES (50099, CONVERT(DATE, '13/04/2020', 103));
+INSERT INTO covid_cases VALUES (87045, CONVERT(DATE, '22/04/2020', 103));
+INSERT INTO covid_cases VALUES (101101, CONVERT(DATE, '30/04/2020', 103));
+INSERT INTO covid_cases VALUES (40015, CONVERT(DATE, '01/05/2020', 103));
+INSERT INTO covid_cases VALUES (54035, CONVERT(DATE, '09/05/2020', 103));
+INSERT INTO covid_cases VALUES (71099, CONVERT(DATE, '14/05/2020', 103));
+INSERT INTO covid_cases VALUES (82045, CONVERT(DATE, '21/05/2020', 103));
+INSERT INTO covid_cases VALUES (90103, CONVERT(DATE, '25/05/2020', 103));
+INSERT INTO covid_cases VALUES (99103, CONVERT(DATE, '31/05/2020', 103));
+INSERT INTO covid_cases VALUES (11015, CONVERT(DATE, '03/06/2020', 103));
+INSERT INTO covid_cases VALUES (28035, CONVERT(DATE, '10/06/2020', 103));
+INSERT INTO covid_cases VALUES (38099, CONVERT(DATE, '14/06/2020', 103));
+INSERT INTO covid_cases VALUES (45045, CONVERT(DATE, '20/06/2020', 103));
+INSERT INTO covid_cases VALUES (36033, CONVERT(DATE, '09/07/2020', 103));
+INSERT INTO covid_cases VALUES (40011, CONVERT(DATE, '23/07/2020', 103));	
+INSERT INTO covid_cases VALUES (25001, CONVERT(DATE, '12/08/2020', 103));
+INSERT INTO covid_cases VALUES (29990, CONVERT(DATE, '26/08/2020', 103));	
+INSERT INTO covid_cases VALUES (20112, CONVERT(DATE, '04/09/2020', 103));	
+INSERT INTO covid_cases VALUES (43991, CONVERT(DATE, '18/09/2020', 103));	
+INSERT INTO covid_cases VALUES (51002, CONVERT(DATE, '29/09/2020', 103));	
+INSERT INTO covid_cases VALUES (26587, CONVERT(DATE, '25/10/2020', 103));	
+INSERT INTO covid_cases VALUES (11000, CONVERT(DATE, '07/11/2020', 103));	
+INSERT INTO covid_cases VALUES (35002, CONVERT(DATE, '16/11/2020', 103));	
+INSERT INTO covid_cases VALUES (56010, CONVERT(DATE, '28/11/2020', 103));	
+INSERT INTO covid_cases VALUES (15099, CONVERT(DATE, '02/12/2020', 103));	
+INSERT INTO covid_cases VALUES (38042, CONVERT(DATE, '11/12/2020', 103));	
+INSERT INTO covid_cases VALUES (73030, CONVERT(DATE, '26/12/2020', 103));
+	
+
+
+select * from covid_cases;
+
