@@ -34,3 +34,76 @@ select * from leave_balance;
 
 -- SOLUTION
 
+CREATE FUNCTION dbo.WeekdayDifference (
+    @start_date DATE,
+    @end_date DATE
+)
+RETURNS INT
+AS
+BEGIN
+    DECLARE @current_date DATE = @start_date;
+    DECLARE @weekday_count INT = 0;
+
+    WHILE @current_date <= @end_date
+    BEGIN
+        IF DATEPART(WEEKDAY, @current_date) NOT IN (1, 7) -- 1 = Sunday, 7 = Saturday 
+            SET @weekday_count += 1;
+        
+        SET @current_date = DATEADD(DAY, 1, @current_date);
+    END
+
+    RETURN @weekday_count;
+END;
+
+
+WITH cte AS (
+    SELECT 
+        id,
+        v.emp_id,
+        from_dt,
+        to_dt,
+        l.balance AS leave_balance,
+        dbo.WeekdayDifference(from_dt, to_dt) AS vacation_days,
+        ROW_NUMBER() OVER(PARTITION BY v.emp_id ORDER BY v.emp_id, v.id) AS rn
+    FROM vacation_plans v
+    LEFT JOIN leave_balance l 
+    ON v.emp_id = l.emp_id
+),
+recursive_cte AS (
+    SELECT 
+        id,
+        emp_id,
+        from_dt,
+        to_dt,
+        leave_balance,
+        vacation_days,
+        rn,
+        (leave_balance - vacation_days) AS remaining_balance
+    FROM cte
+    WHERE rn = 1
+
+    UNION ALL
+
+    SELECT 
+        c.id id,
+        c.emp_id emp_id,
+        c.from_dt from_dt,
+        c.to_dt to_dt,
+        c.leave_balance,
+        c.vacation_days vacation_days,
+        c.rn,
+        (rc.remaining_balance - c.vacation_days) AS remaining_balance
+    FROM cte c
+    JOIN recursive_cte rc 
+    ON c.emp_id = rc.emp_id AND c.rn = rc.rn + 1
+)
+SELECT 
+	id, 
+	emp_id, 
+	from_dt, 
+	to_dt, 
+	vacation_days, 
+	case 
+		when remaining_balance < 0 then 'Insufficient Leave Balance' else 'Approved' 
+	end as status FROM recursive_cte
+ORDER BY status, emp_id
